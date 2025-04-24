@@ -351,3 +351,21 @@ button:focus-visible {
   margin-bottom: 1rem;
   min-height: 40px; /* Prevents jumping */
 }
+
+/* Celebration animation */
+@keyframes celebration {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.celebration {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: #4CAF50;
+  animation: celebration 1s infinite;
+  z-index: 1000;
+}

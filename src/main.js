@@ -375,16 +375,28 @@ function renderBoard(board) {
 
 // Check if the current board matches the solution
 function checkSolution(currentBoard) {
-  if (!solution) return false
-  
+  if (!solution) return false;
+
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (currentBoard[i][j] !== solution[i][j]) {
-        return false
+        return false;
       }
     }
   }
-  return true
+
+  const endTime = new Date();
+  const timeInSeconds = Math.floor((endTime - startTime) / 1000);
+  const finalScore = calculateScore(DIFFICULTY_SETTINGS[difficulty].baseScore, timeInSeconds);
+  const penaltyMultiplier = Math.max(0.1, 1 - (penalties * 0.1));
+  const penalizedScore = Math.round(finalScore * penaltyMultiplier);
+  currentScore += penalizedScore;
+  document.querySelector('#current-score').textContent = currentScore;
+
+  showCelebration(currentScore);
+
+  alert(`Congratulations! You solved the puzzle!\nTime: ${Math.floor(timeInSeconds / 60)}:${(timeInSeconds % 60).toString().padStart(2, '0')}\nPenalties: ${penalties}\nPenalty Multiplier: ${(penaltyMultiplier * 100).toFixed(0)}%\nFinal Score: ${currentScore}`);
+  return true;
 }
 
 // Function to find the next empty cell
@@ -504,6 +516,18 @@ async function aiSolve() {
     explanationDiv.innerHTML += '<br><strong>Puzzle solved using only certain moves!</strong>';
     isAISolving = false;
   }
+}
+
+// Function to show celebration animation
+function showCelebration(finalScore) {
+  const celebrationDiv = document.createElement('div');
+  celebrationDiv.className = 'celebration';
+  celebrationDiv.textContent = `🎉 Congratulations! Final Score: ${finalScore} 🎉`;
+  document.body.appendChild(celebrationDiv);
+
+  setTimeout(() => {
+    celebrationDiv.remove();
+  }, 5000); // Remove after 5 seconds
 }
 
 // Event listeners
