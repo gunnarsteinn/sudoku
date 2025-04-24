@@ -172,6 +172,16 @@ function addStepToHistory(explanation, boardState, highlightCell) {
   preview.appendChild(createPreviewBoard(boardState, highlightCell));
   step.appendChild(preview);
   
+  // Add click handler to toggle preview
+  step.addEventListener('click', (e) => {
+    // Close other expanded steps
+    document.querySelectorAll('.step.expanded').forEach(s => {
+      if (s !== step) s.classList.remove('expanded');
+    });
+    // Toggle current step
+    step.classList.toggle('expanded');
+  });
+  
   stepHistory.appendChild(step);
   stepHistory.scrollTop = stepHistory.scrollHeight;
   

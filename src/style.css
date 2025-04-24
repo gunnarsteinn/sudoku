@@ -238,19 +238,17 @@ button:focus-visible {
 }
 
 .step-preview {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  display: none;
+  position: relative;
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  z-index: 1000;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.step:hover .step-preview {
+.step.expanded .step-preview {
   display: block;
 }
 
@@ -265,38 +263,9 @@ button:focus-visible {
   margin: 0 auto;
 }
 
-.preview-cell {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  font-size: 1rem;
-  position: relative;
-}
-
-.preview-cell.highlight {
-  background: linear-gradient(135deg, #646cff 0%, #535bf2 100%);
-  color: white;
-  font-weight: bold;
-}
-
-.preview-cell.initial {
-  background-color: #f0f0f0;
-}
-
-.preview-cell.ai-solved {
-  background: linear-gradient(135deg, #e6f3ff 0%, #b3d9ff 100%);
-  color: #0066cc;
-}
-
-.preview-cell.border-right {
-  border-right: 2px solid #333;
-}
-
-.preview-cell.border-bottom {
-  border-bottom: 2px solid #333;
+/* Remove the overlay */
+.step:hover::before {
+  display: none;
 }
 
 /* Adjust the AI explanation container to accommodate the step history */
@@ -369,18 +338,6 @@ button:focus-visible {
   padding: 1rem;
   border-radius: 8px;
   border: 1px solid #ddd;
-}
-
-/* Add an overlay when showing preview */
-.step:hover::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
 }
 
 .game-controls {
