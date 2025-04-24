@@ -1,10 +1,11 @@
 const CACHE_NAME = 'sudoku-v1';
+const BASE_PATH = '/sudoku';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/src/main.js',
-  '/src/style.css',
-  '/vite.svg'
+  BASE_PATH + '/',
+  BASE_PATH + '/index.html',
+  BASE_PATH + '/src/main.js',
+  BASE_PATH + '/src/style.css',
+  BASE_PATH + '/vite.svg'
 ];
 
 self.addEventListener('install', (event) => {

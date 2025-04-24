@@ -37,6 +37,15 @@ function decodeBoard(encrypted) {
   }
 }
 
+function updateURL(currentBoard, solutionBoard) {
+  const boardParam = encodeBoard(currentBoard);
+  const solutionParam = encodeBoard(solutionBoard || currentBoard);
+  const newURL = new URL(window.location.pathname, window.location.origin);
+  newURL.searchParams.set('board', boardParam);
+  newURL.searchParams.set('solution', solutionParam);
+  window.history.pushState({}, '', newURL.pathname + newURL.search);
+}
+
 // Create difficulty selection modal
 const modalHtml = `
   <div class="modal" id="difficulty-modal">
@@ -180,17 +189,23 @@ const board = createEmptyBoard()
 let solution = null
 
 // Try to load game from URL
-const urlParams = new URLSearchParams(window.location.search)
-const savedBoard = urlParams.get('board')
-const savedSolution = urlParams.get('solution')
+const urlParams = new URLSearchParams(window.location.search);
+const savedBoard = urlParams.get('board');
+const savedSolution = urlParams.get('solution');
 
 if (savedBoard && savedSolution) {
-  Object.assign(board, decodeBoard(savedBoard))
-  solution = decodeBoard(savedSolution)
-  renderBoard(board)
+  try {
+    Object.assign(board, decodeBoard(savedBoard));
+    solution = decodeBoard(savedSolution);
+    workingBoard = board.map(row => [...row]); // Initialize workingBoard from saved state
+    renderBoard(board);
+  } catch (e) {
+    console.error('Failed to load game from URL:', e);
+    generateNewGame();
+  }
 } else {
   // Start new game if no saved state
-  generateNewGame()
+  generateNewGame();
 }
 
 // Create empty 9x9 board
@@ -525,7 +540,7 @@ document.querySelector('#ai-solve').addEventListener('click', aiSolve)
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(error => {
+    navigator.serviceWorker.register('/sudoku/sw.js').catch(error => {
       console.log('Service worker registration failed:', error)
     })
   })
