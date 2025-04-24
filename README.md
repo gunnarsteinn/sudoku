@@ -18,6 +18,9 @@ A Progressive Web App implementation of the classic Sudoku puzzle game. Play Sud
   - Player-entered numbers
   - AI-solved numbers
   - Incorrect entries
+ 
+## Demo
+Demo available at https://gunnarsteinn.github.io/sudoku/
 
 ## How to Play
 
